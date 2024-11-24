@@ -1,26 +1,33 @@
 import React from "react";
-import TeamSlide from "./team-slide";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import Slide from "./slide";
 
 const Slide6: React.FC = () => {
-  const teamMembers = [
+  
+  const items = [
     {
-      image: "/images/nejc.png",
-      name: "Jernej Jan Kočica",
-      position: "PhD candidate",
+      text: "Extend satellite lifespans with optimized automation.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
     },
     {
-      image: "/images/luka.png",
-      name: "Luka Zlatečan",
-      position: "CTO@IndigoLabs",
+      text: "Reduce reliance on human controllers for monitoring.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
     },
     {
-      image: "/images/janez.png",
-      name: "Janez Lapajne",
-      position: "PhD candidate",
+      text: "Minimize debris to keep orbits clear.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      text: "Promote standardized, safer conjunction responses.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
     },
   ];
 
-  return <TeamSlide title="Meet Our Team" teamMembers={teamMembers} />;
+  return <Slide items={items} title="Conclusion" />;
 };
 
 export default Slide6;

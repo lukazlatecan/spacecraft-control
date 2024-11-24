@@ -20,8 +20,8 @@ const Home: React.FC = () => {
     { component: <Slide2 key="2" />, name: "Solution" },
     { component: <Slide3 key="3" />, name: "Live Demo" },
     { component: <Slide4 key="4" />, name: "GTM strategy" },
-    { component: <Slide5 key="5" />, name: "Conclusion" },
-    { component: <Slide6 key="6" />, name: "Team" },
+    { component: <Slide5 key="5" />, name: "Team" },
+    { component: <Slide6 key="6" />, name: "Conclusion" },
     { component: <Slide7 key="7" />, name: "Questions" },
   ];
 
