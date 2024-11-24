@@ -1,10 +1,9 @@
+import React from "react";
+
+import Slide from "./slide";
+
 const Slide3: React.FC = () => {
-  return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
-      <h1 className="text-4xl font-bold">Welcome to Slide 3</h1>
-      <p className="text-lg mt-4">This is the first slide content.</p>
-    </div>
-  );
+  return <Slide items={[]} title="Live Demo" />;
 };
 
 export default Slide3;

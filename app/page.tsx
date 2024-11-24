@@ -1,28 +1,48 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Slide1 from "@/components/slide1";
 import Slide2 from "@/components/slide2";
 import Slide3 from "@/components/slide3";
+import Slide4 from "@/components/slide4";
+import Slide5 from "@/components/slide5";
+import Slide6 from "@/components/slide6";
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [<Slide1 key="1" />, <Slide2 key="2" />, <Slide3 key="3" />];
-
-  const handleNext = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
+  // Define slides with names
+  const slides = [
+    { component: <Slide1 key="1" />, name: "Problem" },
+    { component: <Slide2 key="2" />, name: "Solution" },
+    { component: <Slide3 key="3" />, name: "Live Demo" },
+    { component: <Slide4 key="4" />, name: "GTM strategy" },
+    { component: <Slide5 key="5" />, name: "Conclusion" },
+    { component: <Slide6 key="6" />, name: "Questions" },
+  ];
 
   const handleSelectSlide = (index: number) => {
     setCurrentSlide(index);
   };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowRight" && currentSlide < slides.length - 1) {
+      setCurrentSlide((prev) => prev + 1);
+    }
+    if (event.key === "ArrowLeft" && currentSlide > -1) {
+      setCurrentSlide((prev) => prev - 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentSlide]);
 
   return (
     <section className="flex flex-col w-full h-[80vh]">
@@ -37,34 +57,24 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.5 }}
           >
-            {slides[currentSlide]}
+            {slides[currentSlide].component}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="flex justify-center items-center gap-4 py-4">
-        <button className="btn" onClick={handlePrev}>
-          Previous
-        </button>
-        <button className="btn" onClick={handleNext}>
-          Next
-        </button>
-      </div>
-
-      {/* Slide Number Buttons */}
+      {/* Slide Name Buttons */}
       <div className="flex justify-center gap-2 mt-4">
-        {slides.map((_, index) => (
+        {slides.map((slide, index) => (
           <button
             key={index}
             className={`btn px-3 py-2 rounded-md ${
               currentSlide === index
-                ? "bg-green-300 text-white"
+                ? "bg-blue-500 text-white"
                 : "bg-gray-200 text-black"
             }`}
             onClick={() => handleSelectSlide(index)}
           >
-            {index + 1}
+            {slide.name}
           </button>
         ))}
       </div>

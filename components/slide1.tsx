@@ -1,10 +1,45 @@
+import React from "react";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+
+import Slide from "./slide";
+
 const Slide1: React.FC = () => {
-  return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
-      <h1 className="text-4xl font-bold">Welcome to Slide 1</h1>
-      <p className="text-lg mt-4">This is the first slide content.</p>
-    </div>
-  );
+  const items = [
+    {
+      image: "/images/5.png",
+      type: "image" as const,
+    },
+    {
+      text: "Overcrowded orbits see 30+ satellites launched weekly, raising collision risks.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      image: "/images/4.png",
+      type: "image" as const,
+    },
+    {
+      text: "Tools like Neuraspace track collisions but rely on outdated responses.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      image: "/images/3.png",
+      type: "image" as const,
+    },
+    {
+      text: "Slow, error-prone methods waste fuel and shorten satellite lifespans.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      text: "Collisions add debris, worsening orbit management challenges.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+  ];
+
+  return <Slide items={items} title="Problem" />;
 };
 
 export default Slide1;

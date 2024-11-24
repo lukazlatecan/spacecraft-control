@@ -1,10 +1,33 @@
+import React from "react";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+
+import Slide from "./slide";
+
 const Slide2: React.FC = () => {
-  return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
-      <h1 className="text-4xl font-bold">Welcome to Slide 2</h1>
-      <p className="text-lg mt-4">This is the first slide content.</p>
-    </div>
-  );
+  const items = [
+    {
+      text: "SpaceGuardian prevents collisions with automated maneuvers and optimization.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      text: "It monitors trajectories and uses predictive algorithms for proactive prevention.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      text: "Detected risks trigger calculated, simulated, and executed safe maneuvers.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+    {
+      text: "Maneuvers optimize fuel, reduce risks, and enhance efficiency.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+    },
+  ];
+
+  return <Slide items={items} title="Solution" />;
 };
 
 export default Slide2;

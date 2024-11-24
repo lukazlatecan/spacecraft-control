@@ -11,11 +11,12 @@ import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
+import Image from "next/image";
 import clsx from "clsx";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon, HeartFilledIcon, Logo } from "@/components/icons";
+import { GithubIcon } from "@/components/icons";
 
 export const Navbar = () => {
   return (
@@ -23,7 +24,13 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
+            <Image
+              alt="Logo"
+              className="h-8 w-8 object-contain rounded-lg"
+              src="/favicon.png"
+              width={56}
+              height={56}
+            />
             <p className="font-bold text-inherit">SpaceGuardian</p>
           </NextLink>
         </NavbarBrand>
@@ -55,7 +62,6 @@ export const Navbar = () => {
             as={Link}
             className="text-sm font-normal text-default-600 bg-default-100"
             href={siteConfig.links.sponsor}
-            startContent={<HeartFilledIcon className="text-danger" />}
             variant="flat"
           >
             Luka Zlatečan
