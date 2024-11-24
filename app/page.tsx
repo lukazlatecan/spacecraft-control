@@ -10,6 +10,7 @@ import Slide4 from "@/components/slide4";
 import Slide5 from "@/components/slide5";
 import Slide6 from "@/components/slide6";
 
+
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -19,7 +20,7 @@ const Home: React.FC = () => {
     { component: <Slide2 key="2" />, name: "Solution" },
     { component: <Slide3 key="3" />, name: "Live Demo" },
     { component: <Slide4 key="4" />, name: "GTM strategy" },
-    { component: <Slide5 key="5" />, name: "Conclusion" },
+    { component: <Slide5 key="5" />, name: "Team" },
     { component: <Slide6 key="6" />, name: "Questions" },
   ];
 
@@ -31,7 +32,7 @@ const Home: React.FC = () => {
     if (event.key === "ArrowRight" && currentSlide < slides.length - 1) {
       setCurrentSlide((prev) => prev + 1);
     }
-    if (event.key === "ArrowLeft" && currentSlide > -1) {
+    if (event.key === "ArrowLeft" && currentSlide > 0) {
       setCurrentSlide((prev) => prev - 1);
     }
   };
@@ -63,15 +64,13 @@ const Home: React.FC = () => {
       </div>
 
       {/* Slide Name Buttons */}
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="flex justify-center gap-4 mt-4">
         {slides.map((slide, index) => (
           <button
             key={index}
-            className={`btn px-3 py-2 rounded-md ${
-              currentSlide === index
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-black"
-            }`}
+            className={`text-lg font-medium ${
+              currentSlide === index ? "text-blue-500" : "text-gray-500"
+            } hover:text-blue-400`}
             onClick={() => handleSelectSlide(index)}
           >
             {slide.name}
