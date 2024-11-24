@@ -4,7 +4,8 @@ const SATELLITE_CACHE_KEY = "satelliteData";
 
 export interface Step {
   name: string;
-  description: string;
+  description: any;
+  textDescription: string;
   status: "pending" | "processing" | "done";
   special?: boolean;
 }
@@ -31,7 +32,7 @@ const fetchSatelliteTLEs = async (): Promise<Satellite[]> => {
   // Fetch fresh data
   try {
     const response = await fetch(
-      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle",
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle"
     );
 
     if (!response.ok) {
@@ -69,4 +70,28 @@ const fetchSatelliteTLEs = async (): Promise<Satellite[]> => {
   }
 };
 
-export { fetchSatelliteTLEs };
+const EARTH_RADIUS_KM = 6371; // Approximate Earth's radius in kilometers
+const LOW_ORBIT_THRESHOLD = 600000; // Define a threshold for low orbit (e.g., 2000 km altitude)
+
+// Utility to parse TLE data and calculate approximate altitude
+const calculatePerigeeFromTLE = (tle1: any, tle2: any) => {
+  const eccentricity = parseFloat(`0.${tle2.substring(26, 33).trim()}`);
+  const mean_motion = parseFloat(tle2.substring(52, 63).trim());
+
+  const semi_major_axis_km =
+    Math.pow(86400 / (mean_motion * 2 * Math.PI), 2 / 3) * EARTH_RADIUS_KM;
+  const perigee_altitude_km =
+    semi_major_axis_km * (1 - eccentricity) - EARTH_RADIUS_KM;
+
+  return perigee_altitude_km;
+};
+
+const fetchAndFilterSatelliteTLEs = async (): Promise<Satellite[]> => {
+  const satellites = await fetchSatelliteTLEs();
+  return satellites.filter((satellite) => {
+    const perigee = calculatePerigeeFromTLE(satellite.tle1, satellite.tle2);
+    return perigee <= LOW_ORBIT_THRESHOLD;
+  });
+};
+
+export { fetchSatelliteTLEs, fetchAndFilterSatelliteTLEs };

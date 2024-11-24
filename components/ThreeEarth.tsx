@@ -73,6 +73,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
   const initialTargetRef = useRef<THREE.Vector3>();
   const simulationTime = useRef(new Date());
   const earthRef = useRef<THREE.Mesh | null>(null);
+  const initialOrbitLines = useRef<Map<string, THREE.Line>>(new Map());
 
   useEffect(() => {
     if (!containerRef.current || satellites.length === 0) return;
@@ -160,7 +161,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       if (dashed) {
         material = new THREE.LineDashedMaterial({
           color: color,
-          dashSize: 1,
+          dashSize: 2,
           gapSize: 1,
         });
       } else {
@@ -194,6 +195,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
         );
 
         scene.add(orbit);
+        initialOrbitLines.current.set(satelliteData.name, orbit);
       }
     });
 
@@ -220,11 +222,20 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           satellitesOfInterest.includes(satelliteData.name) &&
           !maneuveredSatellitesSet.current.has(satelliteData.name)
         ) {
+          const initialOrbit = initialOrbitLines.current.get(
+            satelliteData.name
+          );
+
+          if (initialOrbit) {
+            sceneRef.current?.remove(initialOrbit);
+            initialOrbit.geometry.dispose();
+            initialOrbitLines.current.delete(satelliteData.name);
+          }
           // Before maneuvering, calculate the old orbit and create a dashed line
           const oldOrbit = calculateOrbit(
             satrec,
             simulationTime.current,
-            ofInterestColor,
+            "#aaa",
             true // Dashed line
           );
 
@@ -233,12 +244,12 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           // Store the old orbit line to remove it later
           oldOrbitLines.current.set(satelliteData.name, oldOrbit);
 
-          // Remove the old orbit after a few seconds
-          setTimeout(() => {
-            sceneRef.current?.remove(oldOrbit);
-            oldOrbit.geometry.dispose();
-            oldOrbitLines.current.delete(satelliteData.name);
-          }, 5000); // Remove after 5 seconds
+          // // Remove the old orbit after a few seconds
+          // setTimeout(() => {
+          //   sceneRef.current?.remove(oldOrbit);
+          //   oldOrbit.geometry.dispose();
+          //   oldOrbitLines.current.delete(satelliteData.name);
+          // }, 5000); // Remove after 5 seconds
 
           // Apply maneuver by adjusting the mean motion
           const deltaNo = satrec.no * 0.01; // Adjust by 0.1%
@@ -399,7 +410,6 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
     // Set final camera position at a certain distance from target position
     const zoomInDistance = 5; // Adjust this value to control zoom level
-    const zoomOutDistance = 20; // Distance to zoom out to
     const finalCameraPosition = targetPosition
       .clone()
       .sub(directionToTarget.multiplyScalar(zoomInDistance));
@@ -442,17 +452,17 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       }
     };
 
+    const midCameraPosition = finalCameraPosition
+      .clone()
+      .lerp(initialCameraPosition, 0.3); // Adjust the 0.5 to control how far you zoom out
+
     const zoomOutAnimation = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const t = Math.min(elapsed / zoomDuration, 1);
 
-      // Interpolate back to initial positions
-      camera.position.lerpVectors(
-        finalCameraPosition,
-        initialCameraPosition,
-        t
-      );
+      // Interpolate from finalCameraPosition to midCameraPosition
+      camera.position.lerpVectors(finalCameraPosition, midCameraPosition, t);
       controls.target.lerpVectors(targetPosition, initialTarget, t);
       controls.update();
 
@@ -460,7 +470,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
         requestAnimationFrame(zoomOutAnimation);
       } else {
         // Ensure final position is set
-        camera.position.copy(initialCameraPosition);
+        camera.position.copy(midCameraPosition);
         controls.target.copy(initialTarget);
         controls.update();
 
@@ -470,6 +480,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       }
     };
 
+    // **Start the zoom-in animation**
     requestAnimationFrame(zoomInAnimation);
   };
 
