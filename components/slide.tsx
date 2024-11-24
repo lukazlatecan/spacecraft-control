@@ -62,9 +62,9 @@ const Slide: React.FC<SlideProps> = ({ title, items }) => {
             <Image
               alt="Big image"
               className="w-auto max-w-full max-h-full object-contain rounded-lg"
+              height={512}
               src={(items[currentIndex] as ImageItem).image}
               width={512}
-              height={512}
             />
           </div>
         )}
@@ -104,7 +104,7 @@ const Slide: React.FC<SlideProps> = ({ title, items }) => {
               ) : item.type === "image" ? (
                 <div className="flex justify-center">
                   <img
-                    alt="Small image"
+                    alt="Small"
                     className="h-16 object-cover rounded-md"
                     src={item.image}
                   />

@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { twoline2satrec, propagate, SatRec } from "satellite.js";
+
 import { Satellite } from "@/utils/fetchSatellites";
 
 interface ThreeEarthProps {
@@ -20,13 +21,15 @@ const createScene = (container: HTMLDivElement) => {
     75,
     container.clientWidth / container.clientHeight,
     0.1,
-    1000
+    1000,
   );
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
 
   const controls = new OrbitControls(camera, renderer.domElement);
+
   camera.position.set(20, 15, 20);
   controls.update();
 
@@ -34,7 +37,6 @@ const createScene = (container: HTMLDivElement) => {
 };
 
 const createEarth = (showNightLights: boolean): THREE.Mesh => {
-  console.log("createEarth");
   const earthGeometry = new THREE.SphereGeometry(10, 64, 64);
   const earthMaterial = new THREE.MeshStandardMaterial({
     map: new THREE.TextureLoader().load("/assets/Albedo.jpg"),
@@ -44,6 +46,7 @@ const createEarth = (showNightLights: boolean): THREE.Mesh => {
       ? new THREE.TextureLoader().load("/assets/night_lights_modified.png")
       : null,
   });
+
   return new THREE.Mesh(earthGeometry, earthMaterial);
 };
 
@@ -70,12 +73,14 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
   const initialTargetRef = useRef<THREE.Vector3>();
   const simulationTime = useRef(new Date());
   const earthRef = useRef<THREE.Mesh | null>(null);
+
   useEffect(() => {
     if (!containerRef.current || satellites.length === 0) return;
 
     const { scene, camera, renderer, controls } = createScene(
-      containerRef.current
+      containerRef.current,
     );
+
     sceneRef.current = scene;
     cameraRef.current = camera;
     controlsRef.current = controls;
@@ -86,9 +91,9 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 2);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+
     directionalLight.position.set(50, 50, 50);
     scene.add(ambientLight, directionalLight);
-    console.log("earthRef.current", earthRef.current);
     // Create Earth only once
     if (!earthRef.current) {
       earthRef.current = createEarth(showNightLights);
@@ -100,19 +105,19 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       interest: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.2, 16, 16),
         new THREE.MeshBasicMaterial({ color: ofInterestColor }),
-        satellitesOfInterest.length
+        satellitesOfInterest.length,
       ),
       secondaryInterest: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.2, 16, 16),
         new THREE.MeshBasicMaterial({ color: ofSecondaryInterestColor }),
-        satellitesOfSecondaryInterest.length
+        satellitesOfSecondaryInterest.length,
       ),
       others: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.1, 16, 16),
         new THREE.MeshBasicMaterial({ color: 0x0000ff }),
         satellites.length -
           satellitesOfInterest.length -
-          satellitesOfSecondaryInterest.length
+          satellitesOfSecondaryInterest.length,
       ),
     };
 
@@ -123,11 +128,12 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       satrec: SatRec,
       time: Date,
       color: string,
-      dashed: boolean = false
+      dashed: boolean = false,
     ): THREE.Line => {
       const points: THREE.Vector3[] = [];
 
       const timeForAFullOrbit = (2.0 * Math.PI) / satrec.no; // Approximate orbital period
+
       for (let i = 0; i < timeForAFullOrbit * 60; i += 60) {
         const currentTime = new Date(time.getTime() + i * 1000);
         const positionAndVelocity = propagate(satrec, currentTime);
@@ -150,6 +156,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
       let material: THREE.LineBasicMaterial | THREE.LineDashedMaterial;
+
       if (dashed) {
         material = new THREE.LineDashedMaterial({
           color: color,
@@ -163,9 +170,11 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       }
 
       const line = new THREE.Line(geometry, material);
+
       if (dashed) {
         line.computeLineDistances(); // Required for dashed lines
       }
+
       return line;
     };
 
@@ -181,8 +190,9 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           simulationTime.current,
           satellitesOfInterest.includes(satelliteData.name)
             ? ofInterestColor
-            : ofSecondaryInterestColor
+            : ofSecondaryInterestColor,
         );
+
         scene.add(orbit);
       }
     });
@@ -215,10 +225,10 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
             satrec,
             simulationTime.current,
             ofInterestColor,
-            true // Dashed line
+            true, // Dashed line
           );
+
           sceneRef.current?.add(oldOrbit);
-          console.log("oldOrbit", oldOrbit);
 
           // Store the old orbit line to remove it later
           oldOrbitLines.current.set(satelliteData.name, oldOrbit);
@@ -232,6 +242,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
           // Apply maneuver by adjusting the mean motion
           const deltaNo = satrec.no * 0.01; // Adjust by 0.1%
+
           satrec.no += deltaNo;
 
           // Update related parameters
@@ -243,8 +254,9 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
             satrec,
             simulationTime.current,
             ofInterestColor,
-            false // Solid line
+            false, // Solid line
           );
+
           sceneRef.current?.add(newOrbit);
 
           // Store the new satrec
@@ -265,7 +277,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           const matrix = new THREE.Matrix4().setPosition(
             x * scale,
             y * scale,
-            z * scale
+            z * scale,
           );
 
           if (satellitesOfInterest.includes(satelliteData.name)) {
@@ -285,6 +297,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
       ["interest", "secondaryInterest", "others"].forEach((key) => {
         const mesh = (satelliteMeshes as any)[key];
+
         matrices[key].forEach((item: any) => {
           mesh.setMatrixAt(item.index, item.matrix);
         });
@@ -296,8 +309,9 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
     const animate = () => {
       if (!isZoomAnimating.current) {
         const timeIncrement = (sliderValueRef.current * 1000) / 60;
+
         simulationTime.current = new Date(
-          simulationTime.current.getTime() + timeIncrement
+          simulationTime.current.getTime() + timeIncrement,
         );
 
         updateSatellitePositions(simulationTime.current);
@@ -337,6 +351,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
     isZoomAnimating.current = true;
 
     const valueOfRef = sliderValueRef.current;
+
     sliderValueRef.current = 10;
 
     // Find the average position of satellitesOfInterest
@@ -355,6 +370,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
           return new THREE.Vector3(x * scale, y * scale, z * scale);
         }
+
         return null;
       })
       .filter((pos): pos is THREE.Vector3 => pos !== null);
@@ -362,6 +378,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
     if (positions.length === 0) {
       controls.enabled = true;
       isZoomAnimating.current = false;
+
       return;
     }
 
@@ -400,7 +417,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       camera.position.lerpVectors(
         initialCameraPosition,
         finalCameraPosition,
-        t
+        t,
       );
       controls.target.lerpVectors(initialTarget, targetPosition, t);
       controls.update();
@@ -433,7 +450,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       camera.position.lerpVectors(
         finalCameraPosition,
         initialCameraPosition,
-        t
+        t,
       );
       controls.target.lerpVectors(targetPosition, initialTarget, t);
       controls.update();
@@ -466,18 +483,18 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
 
       <input
-        type="range"
-        min="1"
-        max="500"
         defaultValue={sliderValueRef.current}
-        onChange={(e) => {
-          sliderValueRef.current = parseInt(e.target.value, 10);
-        }}
+        max="500"
+        min="1"
         style={{
           position: "absolute",
           bottom: "20px",
           left: "150px",
           width: "300px",
+        }}
+        type="range"
+        onChange={(e) => {
+          sliderValueRef.current = parseInt(e.target.value, 10);
         }}
       />
     </div>

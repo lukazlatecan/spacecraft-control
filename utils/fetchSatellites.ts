@@ -25,15 +25,15 @@ export interface Satellite {
 const fetchSatelliteTLEs = async (): Promise<Satellite[]> => {
   // Check if cached data is valid
   if (isCacheValid(SATELLITE_CACHE_KEY)) {
-    console.log("Using cached satellite data.");
     return getCachedData(SATELLITE_CACHE_KEY).data;
   }
 
   // Fetch fresh data
   try {
     const response = await fetch(
-      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle"
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle",
     );
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -56,15 +56,13 @@ const fetchSatelliteTLEs = async (): Promise<Satellite[]> => {
 
     // Cache the data for 1 hour
     setCachedData(SATELLITE_CACHE_KEY, satellites, 120);
-    console.log("Satellite data cached.");
 
     return satellites;
   } catch (error) {
-    console.error("Failed to fetch satellite data:", error);
     // Fall back to cached data if available
     const cachedData = getCachedData(SATELLITE_CACHE_KEY);
+
     if (cachedData) {
-      console.warn("Using stale cached satellite data.");
       return cachedData.data;
     }
     throw new Error("Satellite data unavailable.");

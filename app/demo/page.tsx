@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { CheckCircleIcon, CogIcon, ClockIcon } from "@heroicons/react/24/solid";
-import ThreeScene from "@/components/ThreeScene";
+
 import {
   Action,
   fetchSatelliteTLEs,
@@ -22,9 +22,9 @@ const DemoPage: React.FC = () => {
   const [triggerZoom, setTriggerZoom] = useState<boolean>(false);
 
   const currentSatellite = satellites?.find(
-    (sat) => sat.id === selectedSatellite
+    (sat) => sat.id === selectedSatellite,
   );
-  console.log(satellites);
+
   useEffect(() => {
     const loadSatellites = async () => {
       try {
@@ -34,13 +34,14 @@ const DemoPage: React.FC = () => {
 
         setAllSatellites(newSatellites);
         const firstSatellits = newSatellites.slice(0, 3);
+
         setSatellites(firstSatellits);
       } catch (error) {
-        console.error("Error loading satellites:", error);
       } finally {
         setLoading(false);
       }
     };
+
     loadSatellites();
   }, []);
 
@@ -63,14 +64,14 @@ const DemoPage: React.FC = () => {
       prev?.map((sat) =>
         sat.id === selectedSatellite
           ? { ...sat, actions: [...sat.actions, newAction] }
-          : sat
-      )
+          : sat,
+      ),
     );
   };
 
   const processSteps = async (
     actionId: number,
-    delay: number
+    delay: number,
   ): Promise<void> => {
     if (!currentSatellite) return;
 
@@ -89,15 +90,17 @@ const DemoPage: React.FC = () => {
                     ? {
                         ...a,
                         steps: a.steps.map((step, index) =>
-                          index === i ? { ...step, status: "processing" } : step
+                          index === i
+                            ? { ...step, status: "processing" }
+                            : step,
                         ),
                         status: "processing",
                       }
-                    : a
+                    : a,
                 ),
               }
-            : sat
-        )
+            : sat,
+        ),
       );
 
       await new Promise((resolve) => setTimeout(resolve, delay));
@@ -112,16 +115,16 @@ const DemoPage: React.FC = () => {
                     ? {
                         ...a,
                         steps: a.steps.map((step, index) =>
-                          index === i ? { ...step, status: "done" } : step
+                          index === i ? { ...step, status: "done" } : step,
                         ),
                         status:
                           i === action.steps.length - 1 ? "done" : "processing",
                       }
-                    : a
+                    : a,
                 ),
               }
-            : sat
-        )
+            : sat,
+        ),
       );
     }
   };
@@ -139,10 +142,11 @@ const DemoPage: React.FC = () => {
         status: "pending",
       },
     ];
+
     if (!currentSatellite) return;
     addAction(
       `Action ${currentSatellite?.actions?.length + 1}: Custom Logic 1`,
-      steps
+      steps,
     );
     processSteps(currentSatellite?.actions.length + 1 || 1, 1000);
   };
@@ -156,10 +160,11 @@ const DemoPage: React.FC = () => {
         special: true,
       },
     ];
+
     if (!currentSatellite) return;
     addAction(
       `Action ${currentSatellite?.actions.length + 1}: Bidding Action`,
-      steps
+      steps,
     );
   };
 
@@ -176,10 +181,11 @@ const DemoPage: React.FC = () => {
         status: "pending",
       },
     ];
+
     if (!currentSatellite) return;
     addAction(
       `Action ${currentSatellite?.actions.length + 1}: Custom Logic 3`,
-      steps
+      steps,
     );
     processSteps(currentSatellite?.actions.length + 1 || 1, 500);
   };
@@ -201,16 +207,16 @@ const DemoPage: React.FC = () => {
         {loading && <p className="text-gray-500">Loading satellites...</p>}
         {!loading && allSatellites !== undefined && (
           <ThreeEarth
+            ofInterestColor="#ff0000"
+            ofSecondaryInterestColor="#ffa500"
             satellites={allSatellites}
             satellitesOfInterest={[currentSatellite?.name || "NO SATELLITE"]}
             satellitesOfSecondaryInterest={[
               allSatellites[7].name,
               allSatellites[8].name,
             ]}
-            ofInterestColor="#ff0000"
-            ofSecondaryInterestColor="#ffa500"
-            triggerZoom={triggerZoom}
             triggerManeuver={triggerZoom}
+            triggerZoom={triggerZoom}
           />
         )}
       </div>

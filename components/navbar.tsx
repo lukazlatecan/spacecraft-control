@@ -27,9 +27,9 @@ export const Navbar = () => {
             <Image
               alt="Logo"
               className="h-8 w-8 object-contain rounded-lg"
+              height={56}
               src="/favicon.png"
               width={56}
-              height={56}
             />
             <p className="font-bold text-inherit">SpaceGuardian</p>
           </NextLink>
