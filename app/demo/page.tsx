@@ -134,12 +134,12 @@ const DemoPage: React.FC = () => {
       {
         name: "Step 1.1",
         description: "First step of Action 1.",
-        status: "pending",
+        status: "pending" as "pending" | "processing" | "done",
       },
       {
         name: "Step 1.2",
         description: "Second step of Action 1.",
-        status: "pending",
+        status: "pending" as "pending" | "processing" | "done",
       },
     ];
 
@@ -156,7 +156,7 @@ const DemoPage: React.FC = () => {
       {
         name: "Step 2.1",
         description: "Bidding step with functionality.",
-        status: "pending",
+        status: "pending" as "pending" | "processing" | "done",
         special: true,
       },
     ];
@@ -173,12 +173,12 @@ const DemoPage: React.FC = () => {
       {
         name: "Step 3.1",
         description: "First step of Action 3.",
-        status: "pending",
+        status: "pending" as "pending" | "processing" | "done",
       },
       {
         name: "Step 3.2",
         description: "Second step of Action 3.",
-        status: "pending",
+        status: "pending" as "pending" | "processing" | "done",
       },
     ];
 
