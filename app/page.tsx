@@ -9,7 +9,7 @@ import Slide3 from "@/components/slide3";
 import Slide4 from "@/components/slide4";
 import Slide5 from "@/components/slide5";
 import Slide6 from "@/components/slide6";
-import Slide7 from "@/components/slide7";
+
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -21,8 +21,7 @@ const Home: React.FC = () => {
     { component: <Slide3 key="3" />, name: "Live Demo" },
     { component: <Slide4 key="4" />, name: "GTM strategy" },
     { component: <Slide5 key="5" />, name: "Team" },
-    { component: <Slide6 key="6" />, name: "Conclusion" },
-    { component: <Slide7 key="7" />, name: "Questions" },
+    { component: <Slide6 key="6" />, name: "Questions" },
   ];
 
   const handleSelectSlide = (index: number) => {

@@ -6,7 +6,7 @@ import Slide from "./slide";
 const Slide2: React.FC = () => {
   const items = [
     {
-      text: "SpaceGuardian prevents collisions with automated maneuvers and optimization.",
+      text: "SpaceGuardian - a ground based subscription SaaS platform for automatic satellite collision prevention and maneuver optimization.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },

@@ -10,7 +10,7 @@ const Slide1: React.FC = () => {
       type: "image" as const,
     },
     {
-      text: "Orbits see 30+ satellites launched weekly, raising collision risks.",
+      text: "Orbits see 30+ satellites launched weekly - Kessler syndrome",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
@@ -19,7 +19,7 @@ const Slide1: React.FC = () => {
       type: "image" as const,
     },
     {
-      text: "Tools like Neuraspace track collisions but rely on outdated responses.",
+      text: "Tools like LeafSpace track collisions but rely on outdated responses.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
