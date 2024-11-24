@@ -160,12 +160,12 @@ const DemoPage: React.FC = () => {
     };
     setEncounterDetails(details);
 
-    const steps = [
+    const steps: Step[] = [
       {
         name: "CDM Warming - Close Encounter Detected",
         textDescription: `A close encounter has been detected with ${satellite1}. The trajectory of ${currentSatellite.name} has been adjusted to avoid a potential collision.`,
         description: details,
-        status: "resolved",
+        status: "done",
       },
     ];
 
@@ -195,11 +195,11 @@ const DemoPage: React.FC = () => {
       };
       setEncounterDetails(details);
 
-      const steps = [
+      const steps: Step[] = [
         {
           name: "Close Encounter Detected",
           description: details,
-          textDetails: `A close encounter has been detected with ${secondaryInterestSatellites[0]}. Bid to avoid a potential collision.`,
+          textDescription: `A close encounter has been detected with ${secondaryInterestSatellites[0]}. Bid to avoid a potential collision.`,
           status: "pending",
         },
       ];
@@ -207,7 +207,7 @@ const DemoPage: React.FC = () => {
       addAction(`CDM Alert - Bidding initiated`, steps);
     } else if (encounterStage === "worsening") {
       // Start the bidding process
-      const steps = [
+      const steps: Step[] = [
         {
           name: "Bidding Started",
           description: "Bidding process has started.",
@@ -237,6 +237,7 @@ const DemoPage: React.FC = () => {
   };
 
   const handleBidSubmit = () => {
+    if (!userBid) return;
     setHighestBid(userBid);
 
     if (!currentSatellite) return;
@@ -280,10 +281,6 @@ const DemoPage: React.FC = () => {
     setTimeout(() => {
       setTriggerZoom(true);
     }, 1000);
-
-    const details = `The bid has been accepted. The predicted miss distance has increased back to ${missDistance} meters. The situation is now resolved.`;
-
-    setEncounterDetails(details);
 
     // setSatellites((prev: any) => {
     //   return prev?.map((sat: any) => {
