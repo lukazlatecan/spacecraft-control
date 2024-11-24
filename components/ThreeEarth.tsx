@@ -21,7 +21,7 @@ const createScene = (container: HTMLDivElement) => {
     75,
     container.clientWidth / container.clientHeight,
     0.1,
-    1000,
+    1000
   );
   const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -63,7 +63,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
-  const sliderValueRef = useRef(50);
+  const sliderValueRef = useRef(20);
   const showNightLights = false;
   const maneuveredSatellites = useRef<Map<string, SatRec>>(new Map()); // Store new satrecs
   const maneuveredSatellitesSet = useRef<Set<string>>(new Set()); // Track maneuvered satellites
@@ -78,7 +78,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
     if (!containerRef.current || satellites.length === 0) return;
 
     const { scene, camera, renderer, controls } = createScene(
-      containerRef.current,
+      containerRef.current
     );
 
     sceneRef.current = scene;
@@ -105,19 +105,19 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       interest: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.2, 16, 16),
         new THREE.MeshBasicMaterial({ color: ofInterestColor }),
-        satellitesOfInterest.length,
+        satellitesOfInterest.length
       ),
       secondaryInterest: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.2, 16, 16),
         new THREE.MeshBasicMaterial({ color: ofSecondaryInterestColor }),
-        satellitesOfSecondaryInterest.length,
+        satellitesOfSecondaryInterest.length
       ),
       others: new THREE.InstancedMesh(
         new THREE.SphereGeometry(0.1, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+        new THREE.MeshBasicMaterial({ color: 0x00ffff }),
         satellites.length -
           satellitesOfInterest.length -
-          satellitesOfSecondaryInterest.length,
+          satellitesOfSecondaryInterest.length
       ),
     };
 
@@ -128,7 +128,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       satrec: SatRec,
       time: Date,
       color: string,
-      dashed: boolean = false,
+      dashed: boolean = false
     ): THREE.Line => {
       const points: THREE.Vector3[] = [];
 
@@ -190,7 +190,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           simulationTime.current,
           satellitesOfInterest.includes(satelliteData.name)
             ? ofInterestColor
-            : ofSecondaryInterestColor,
+            : ofSecondaryInterestColor
         );
 
         scene.add(orbit);
@@ -225,7 +225,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
             satrec,
             simulationTime.current,
             ofInterestColor,
-            true, // Dashed line
+            true // Dashed line
           );
 
           sceneRef.current?.add(oldOrbit);
@@ -254,7 +254,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
             satrec,
             simulationTime.current,
             ofInterestColor,
-            false, // Solid line
+            false // Solid line
           );
 
           sceneRef.current?.add(newOrbit);
@@ -277,7 +277,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           const matrix = new THREE.Matrix4().setPosition(
             x * scale,
             y * scale,
-            z * scale,
+            z * scale
           );
 
           if (satellitesOfInterest.includes(satelliteData.name)) {
@@ -311,7 +311,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
         const timeIncrement = (sliderValueRef.current * 1000) / 60;
 
         simulationTime.current = new Date(
-          simulationTime.current.getTime() + timeIncrement,
+          simulationTime.current.getTime() + timeIncrement
         );
 
         updateSatellitePositions(simulationTime.current);
@@ -352,7 +352,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
     const valueOfRef = sliderValueRef.current;
 
-    sliderValueRef.current = 10;
+    sliderValueRef.current = 5;
 
     // Find the average position of satellitesOfInterest
     const positions = satellites
@@ -399,6 +399,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
     // Set final camera position at a certain distance from target position
     const zoomInDistance = 5; // Adjust this value to control zoom level
+    const zoomOutDistance = 20; // Distance to zoom out to
     const finalCameraPosition = targetPosition
       .clone()
       .sub(directionToTarget.multiplyScalar(zoomInDistance));
@@ -417,7 +418,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       camera.position.lerpVectors(
         initialCameraPosition,
         finalCameraPosition,
-        t,
+        t
       );
       controls.target.lerpVectors(initialTarget, targetPosition, t);
       controls.update();
@@ -450,7 +451,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
       camera.position.lerpVectors(
         finalCameraPosition,
         initialCameraPosition,
-        t,
+        t
       );
       controls.target.lerpVectors(targetPosition, initialTarget, t);
       controls.update();
