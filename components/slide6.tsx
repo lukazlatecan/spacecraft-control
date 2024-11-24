@@ -1,17 +1,26 @@
 import React from "react";
-
-import QuoteSlide from "./quote-slide";
+import TeamSlide from "./team-slide";
 
 const Slide6: React.FC = () => {
-  return (
-    <QuoteSlide
-      companyName="SpaceGuardian"
-      quote="If we had asked satellite operators what they wanted, they would have said: Satellites with more fuel and less congestion in orbit."
-      quoteAuthor="Henry Ford"
-      slogan="Guiding Satellites, Shaping Tomorrow"
-      title="Questions"
-    />
-  );
+  const teamMembers = [
+    {
+      image: "/images/nejc.png",
+      name: "Jernej Jan Kočica",
+      position: "PhD candidate",
+    },
+    {
+      image: "/images/luka.png",
+      name: "Luka Zlatečan",
+      position: "CTO@IndigoLabs",
+    },
+    {
+      image: "/images/janez.png",
+      name: "Janez Lapajne",
+      position: "PhD candidate",
+    },
+  ];
+
+  return <TeamSlide title="Meet Our Team" teamMembers={teamMembers} />;
 };
 
 export default Slide6;

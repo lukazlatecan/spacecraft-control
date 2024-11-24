@@ -10,7 +10,7 @@ const Slide1: React.FC = () => {
       type: "image" as const,
     },
     {
-      text: "Overcrowded orbits see 30+ satellites launched weekly, raising collision risks.",
+      text: "Orbits see 30+ satellites launched weekly, raising collision risks.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
