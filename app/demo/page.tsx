@@ -1,42 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { CheckCircleIcon, CogIcon, ClockIcon } from "@heroicons/react/24/solid";
-
-interface Step {
-  name: string;
-  description: string;
-  status: "pending" | "processing" | "done";
-  special?: boolean;
-}
-
-interface Action {
-  id: number;
-  title: string;
-  steps: Step[];
-  status: "pending" | "processing" | "done";
-}
-
-interface Satellite {
-  id: number;
-  name: string;
-  actions: Action[];
-}
+import ThreeScene from "@/components/ThreeScene";
+import {
+  Action,
+  fetchSatelliteTLEs,
+  Satellite,
+  Step,
+} from "@/utils/fetchSatellites";
+import ThreeEarth from "@/components/ThreeEarth";
 
 const DemoPage: React.FC = () => {
-  const [satellites, setSatellites] = useState<Satellite[]>([
-    { id: 1, name: "Satellite 1", actions: [] },
-    { id: 2, name: "Satellite 2", actions: [] },
-    { id: 3, name: "Satellite 3", actions: [] },
-  ]);
+  const [satellites, setSatellites] = useState<Satellite[]>();
+  const [allSatellites, setAllSatellites] = useState<Satellite[]>();
   const [selectedSatellite, setSelectedSatellite] = useState<number>(1);
   const [highestBid, setHighestBid] = useState<number>(100);
   const [userBid, setUserBid] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [triggerZoom, setTriggerZoom] = useState<boolean>(false);
 
-  const currentSatellite = satellites.find(
-    (sat) => sat.id === selectedSatellite,
+  const currentSatellite = satellites?.find(
+    (sat) => sat.id === selectedSatellite
   );
+  console.log(satellites);
+  useEffect(() => {
+    const loadSatellites = async () => {
+      try {
+        const data = await fetchSatelliteTLEs();
+
+        const newSatellites = data.slice(0, 100);
+
+        setAllSatellites(newSatellites);
+        const firstSatellits = newSatellites.slice(0, 3);
+        setSatellites(firstSatellits);
+      } catch (error) {
+        console.error("Error loading satellites:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSatellites();
+  }, []);
+
+  const handleBidSubmit = (actionId: number, bid: number): void => {
+    setTriggerZoom(true);
+    setHighestBid(bid);
+  };
 
   const addAction = (title: string, steps: Step[]): void => {
     if (!currentSatellite) return;
@@ -49,17 +60,17 @@ const DemoPage: React.FC = () => {
     };
 
     setSatellites((prev) =>
-      prev.map((sat) =>
+      prev?.map((sat) =>
         sat.id === selectedSatellite
           ? { ...sat, actions: [...sat.actions, newAction] }
-          : sat,
-      ),
+          : sat
+      )
     );
   };
 
   const processSteps = async (
     actionId: number,
-    delay: number,
+    delay: number
   ): Promise<void> => {
     if (!currentSatellite) return;
 
@@ -69,7 +80,7 @@ const DemoPage: React.FC = () => {
 
     for (let i = 0; i < action.steps.length; i++) {
       setSatellites((prev) =>
-        prev.map((sat) =>
+        prev?.map((sat) =>
           sat.id === selectedSatellite
             ? {
                 ...sat,
@@ -78,23 +89,21 @@ const DemoPage: React.FC = () => {
                     ? {
                         ...a,
                         steps: a.steps.map((step, index) =>
-                          index === i
-                            ? { ...step, status: "processing" }
-                            : step,
+                          index === i ? { ...step, status: "processing" } : step
                         ),
                         status: "processing",
                       }
-                    : a,
+                    : a
                 ),
               }
-            : sat,
-        ),
+            : sat
+        )
       );
 
       await new Promise((resolve) => setTimeout(resolve, delay));
 
       setSatellites((prev) =>
-        prev.map((sat) =>
+        prev?.map((sat) =>
           sat.id === selectedSatellite
             ? {
                 ...sat,
@@ -103,16 +112,16 @@ const DemoPage: React.FC = () => {
                     ? {
                         ...a,
                         steps: a.steps.map((step, index) =>
-                          index === i ? { ...step, status: "done" } : step,
+                          index === i ? { ...step, status: "done" } : step
                         ),
                         status:
                           i === action.steps.length - 1 ? "done" : "processing",
                       }
-                    : a,
+                    : a
                 ),
               }
-            : sat,
-        ),
+            : sat
+        )
       );
     }
   };
@@ -130,10 +139,10 @@ const DemoPage: React.FC = () => {
         status: "pending",
       },
     ];
-
+    if (!currentSatellite) return;
     addAction(
-      `Action ${currentSatellite?.actions.length + 1}: Custom Logic 1`,
-      steps,
+      `Action ${currentSatellite?.actions?.length + 1}: Custom Logic 1`,
+      steps
     );
     processSteps(currentSatellite?.actions.length + 1 || 1, 1000);
   };
@@ -147,10 +156,10 @@ const DemoPage: React.FC = () => {
         special: true,
       },
     ];
-
+    if (!currentSatellite) return;
     addAction(
       `Action ${currentSatellite?.actions.length + 1}: Bidding Action`,
-      steps,
+      steps
     );
   };
 
@@ -167,10 +176,10 @@ const DemoPage: React.FC = () => {
         status: "pending",
       },
     ];
-
+    if (!currentSatellite) return;
     addAction(
       `Action ${currentSatellite?.actions.length + 1}: Custom Logic 3`,
-      steps,
+      steps
     );
     processSteps(currentSatellite?.actions.length + 1 || 1, 500);
   };
@@ -188,28 +197,42 @@ const DemoPage: React.FC = () => {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 md:py-10">
-      <div className="col-span-2 flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold">Satellite Monitoring System</h1>
-        <p className="text-center text-gray-600">
-          Manage actions and monitor status for your satellites.
-        </p>
+      <div className="col-span-2 justify-center items-center">
+        {loading && <p className="text-gray-500">Loading satellites...</p>}
+        {!loading && allSatellites !== undefined && (
+          <ThreeEarth
+            satellites={allSatellites}
+            satellitesOfInterest={[currentSatellite?.name || "NO SATELLITE"]}
+            satellitesOfSecondaryInterest={[
+              allSatellites[7].name,
+              allSatellites[8].name,
+            ]}
+            ofInterestColor="#ff0000"
+            ofSecondaryInterestColor="#ffa500"
+            triggerZoom={triggerZoom}
+            triggerManeuver={triggerZoom}
+          />
+        )}
       </div>
 
       <div className="col-span-1 flex flex-col gap-4">
         <div className="flex justify-center gap-4">
-          {satellites.map((satellite) => (
-            <button
-              key={satellite.id}
-              className={`px-4 py-2 rounded shadow ${
-                selectedSatellite === satellite.id
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setSelectedSatellite(satellite.id)}
-            >
-              {satellite.name}
-            </button>
-          ))}
+          {!satellites && <p>No satellites found.</p>}
+          {satellites &&
+            satellites.length !== 0 &&
+            satellites.map((satellite) => (
+              <button
+                key={satellite.id}
+                className={`px-4 py-2 rounded shadow ${
+                  selectedSatellite === satellite.id
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+                onClick={() => setSelectedSatellite(satellite.id)}
+              >
+                {satellite.name}
+              </button>
+            ))}
         </div>
 
         {/* Buttons for Adding Actions */}
