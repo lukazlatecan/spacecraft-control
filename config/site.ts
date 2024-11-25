@@ -12,6 +12,10 @@ export const siteConfig = {
       label: "Demo",
       href: "/demo",
     },
+    {
+      label: "Presentation",
+      href: "/?slide=GTM%20strategy",
+    },
     // {
     //   label: "Pricing",
     //   href: "/pricing",

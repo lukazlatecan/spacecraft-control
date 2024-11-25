@@ -4,7 +4,8 @@ interface QuoteSlideProps {
   title: string;
   quote: string;
   quoteAuthor: string;
-  companyName: string;
+  companyNameText1: string;
+  companyNameText2: string;
   slogan: string; // New prop for company slogan
 }
 
@@ -12,7 +13,8 @@ const QuoteSlide: React.FC<QuoteSlideProps> = ({
   title,
   quote,
   quoteAuthor,
-  companyName,
+  companyNameText1,
+  companyNameText2,
   slogan,
 }) => {
   return (
@@ -26,10 +28,11 @@ const QuoteSlide: React.FC<QuoteSlideProps> = ({
         <span className="text-blue-500 font-bold text-xs">{quoteAuthor}</span>
       </blockquote>
 
-      <h1 className="text-5xl text-center mb-2 mt-5">
-        <span className="text-blue-500 font-bold">{companyName}</span>
+      <h1 className="text-5xl text-center mb-2 mt-10">
+        <span className="text-white-500 font-bold">{companyNameText1}</span>
+        <span className="text-blue-500 font-bold">{companyNameText2}</span>
       </h1>
-      <h1 className="text-3xl text-center mb-2">{slogan}</h1>
+      <h1 className="text-2xl text-center mb-2">{slogan}</h1>
     </div>
   );
 };

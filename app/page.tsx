@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
+import Slide0 from "@/components/slide0";
 import Slide1 from "@/components/slide1";
 import Slide2 from "@/components/slide2";
 import Slide3 from "@/components/slide3";
@@ -10,40 +12,71 @@ import Slide4 from "@/components/slide4";
 import Slide5 from "@/components/slide5";
 import Slide6 from "@/components/slide6";
 
-
 const Home: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
+  const [currentSlide, setCurrentSlide] = useState<number | null>(null);
 
   // Define slides with names
   const slides = [
+    { component: <Slide0 key="0" />, name: "SpaceGuardian" },
     { component: <Slide1 key="1" />, name: "Problem" },
     { component: <Slide2 key="2" />, name: "Solution" },
     { component: <Slide3 key="3" />, name: "Live Demo" },
     { component: <Slide4 key="4" />, name: "GTM strategy" },
     { component: <Slide5 key="5" />, name: "Team" },
-    { component: <Slide6 key="6" />, name: "Questions" },
+    { component: <Slide6 key="6" />, name: "Q&A" },
   ];
 
-  const handleSelectSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+  const getSlideIndexByName = (name: string) =>
+    slides.findIndex((slide) => slide.name === name);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "ArrowRight" && currentSlide < slides.length - 1) {
-      setCurrentSlide((prev) => prev + 1);
-    }
-    if (event.key === "ArrowLeft" && currentSlide > 0) {
-      setCurrentSlide((prev) => prev - 1);
-    }
-  };
+  const handleSelectSlide = useCallback(
+    (index: number) => {
+      setCurrentSlide(index);
+      router.push(`/?slide=${encodeURIComponent(slides[index].name)}`);
+    },
+    [router, slides]
+  );
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === "ArrowRight" &&
+        currentSlide !== null &&
+        currentSlide < slides.length - 1
+      ) {
+        handleSelectSlide(currentSlide + 1);
+      }
+      if (
+        event.key === "ArrowLeft" &&
+        currentSlide !== null &&
+        currentSlide > 0
+      ) {
+        handleSelectSlide(currentSlide - 1);
+      }
+    };
 
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentSlide]);
+  }, [currentSlide, handleSelectSlide, slides.length]);
+
+  useEffect(() => {
+    // Read initial slide from the URL on component mount
+    const urlParams = new URLSearchParams(window.location.search);
+    const slideName = urlParams.get("slide");
+    const initialSlide = slideName
+      ? getSlideIndexByName(decodeURIComponent(slideName))
+      : 0;
+
+    setCurrentSlide(initialSlide);
+  }, []);
+
+  if (currentSlide === null) {
+    // Render nothing or a loading spinner until currentSlide is initialized
+    return null;
+  }
 
   return (
     <section className="flex flex-col w-full h-[80vh]">

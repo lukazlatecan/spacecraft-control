@@ -23,7 +23,7 @@ const createScene = (container: HTMLDivElement) => {
     0.1,
     1000
   );
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
@@ -454,7 +454,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
 
     const midCameraPosition = finalCameraPosition
       .clone()
-      .lerp(initialCameraPosition, 0.3); // Adjust the 0.5 to control how far you zoom out
+      .lerp(initialCameraPosition, 0.6); // Adjust the 0.5 to control how far you zoom out
 
     const zoomOutAnimation = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
@@ -503,6 +503,7 @@ const ThreeEarth: React.FC<ThreeEarthProps> = ({
           bottom: "20px",
           left: "150px",
           width: "300px",
+          display: "none",
         }}
         type="range"
         onChange={(e) => {

@@ -5,24 +5,20 @@ import Image from "next/image";
 type TextItem = {
   text: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  image?: string;
   type: "text";
 };
 
-type ImageItem = {
-  image: string; // Only one image is allowed
-  type: "image";
-};
-
-type SlideItem = TextItem | ImageItem;
+type SlideItem = TextItem;
 
 interface SlideProps {
   title: string;
   items: SlideItem[];
+  callback?: () => void;
 }
 
-const Slide: React.FC<SlideProps> = ({ title, items }) => {
+const Slide: React.FC<SlideProps> = ({ title, items, callback }) => {
   const [currentIndex, setCurrentIndex] = useState(-1); // Start with -1 to show only the title
-  const [bigImageVisible, setBigImageVisible] = useState(false);
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "ArrowDown" && currentIndex < items.length - 1) {
@@ -31,11 +27,13 @@ const Slide: React.FC<SlideProps> = ({ title, items }) => {
     if (event.key === "ArrowUp" && currentIndex > -1) {
       setCurrentIndex((prev) => prev - 1);
     }
-    if (event.key === " " && bigImageVisible) {
-      // Hide big image when Space is pressed
-      setBigImageVisible(false);
-    }
   };
+
+  useEffect(() => {
+    if (currentIndex === items.length - 1 && callback) {
+      callback();
+    }
+  }, [currentIndex]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -43,32 +41,17 @@ const Slide: React.FC<SlideProps> = ({ title, items }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentIndex, bigImageVisible]);
-
-  // Automatically toggle big image visibility when the current item is of type "image"
-  useEffect(() => {
-    if (currentIndex >= 0 && items[currentIndex]?.type === "image") {
-      setBigImageVisible(true);
-    }
   }, [currentIndex]);
 
   return (
-    <div className="relative flex flex-col justify-center items-center w-full h-full p-6">
-      {/* Big Image with Transparent Blurred Background */}
-      {bigImageVisible &&
-        currentIndex >= 0 &&
-        items[currentIndex]?.type === "image" && (
-          <div className="absolute inset-0 flex justify-center items-center z-10 backdrop-blur-lg">
-            <Image
-              alt="Big image"
-              className="w-auto max-w-full max-h-full object-contain rounded-lg"
-              height={512}
-              src={(items[currentIndex] as ImageItem).image}
-              width={512}
-            />
-          </div>
-        )}
-
+    <motion.div
+      className="relative flex flex-col m-10 items-center w-full h-full p-6"
+      animate={{
+        y: currentIndex < 0 ? "40%" : "0%", // Moves the container vertically
+      }}
+      initial={{ y: "40%" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+    >
       {/* Slide Title */}
       <motion.h1
         animate={{ opacity: 1, y: 0 }}
@@ -80,41 +63,54 @@ const Slide: React.FC<SlideProps> = ({ title, items }) => {
       </motion.h1>
 
       {/* Slide Content */}
-      <div className="relative mt-6 w-full max-w-xl">
-        <ul className="space-y-4">
-          {items.map((item, index) => (
-            <motion.li
-              key={index}
-              animate={{
-                opacity: currentIndex >= index ? 1 : 0,
-                x: currentIndex >= index ? 0 : 50,
-              }}
-              className="flex flex-col text-lg"
-              initial={{ opacity: 0, x: 50 }}
-              transition={{
-                duration: 0.5,
-                delay: currentIndex >= index ? 0.2 : 0,
-              }}
-            >
-              {item.type === "text" ? (
-                <div className="flex items-center">
+      <div className="relative mt-10 flex w-full max-w-4xl items-start">
+        {/* Text Section (Left Aligned) */}
+        <ul className="w-1/2 space-y-8">
+          {items.map(
+            (item, index) =>
+              item.type === "text" && (
+                <motion.li
+                  key={index}
+                  animate={{
+                    opacity: currentIndex >= index ? 1 : 0,
+                    x: currentIndex >= index ? 0 : -50,
+                  }}
+                  className="flex items-center text-xl"
+                  initial={{ opacity: 0, x: -50 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: currentIndex >= index ? 0.2 : 0,
+                  }}
+                >
                   <item.icon className="text-blue-500 mr-3 h-6 w-6" />
                   {item.text}
-                </div>
-              ) : item.type === "image" ? (
-                <div className="flex justify-center">
-                  <img
-                    alt="Small"
-                    className="h-16 object-cover rounded-md"
-                    src={item.image}
-                  />
-                </div>
-              ) : null}
-            </motion.li>
-          ))}
+                </motion.li>
+              )
+          )}
         </ul>
+
+        {/* Image Section (Right Aligned) */}
+        <div className="w-1/2 flex justify-center items-center">
+          {currentIndex >= 0 && items[currentIndex]?.image && (
+            <motion.div
+              key={items[currentIndex].image}
+              animate={{ opacity: 1, scale: 1 }}
+              className="w-full flex justify-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Image
+                alt="Relevant image"
+                className="w-auto max-w-full max-h-full object-contain rounded-lg"
+                height={1024}
+                src={items[currentIndex].image}
+                width={1024}
+              />
+            </motion.div>
+          )}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

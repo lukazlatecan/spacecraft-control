@@ -36,9 +36,14 @@ export default function RootLayout({
       <head />
       <body
         className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
+          "min-h-screen bg-transparent font-sans antialiased",
+          fontSans.variable
         )}
+        style={{
+          backgroundImage: "url('/images/stars1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="rnelative flex flex-col h-screen">
