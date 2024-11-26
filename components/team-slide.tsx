@@ -22,13 +22,13 @@ const TeamSlide: React.FC<TeamSlideProps> = ({ title, teamMembers }) => {
         {teamMembers.map((member, index) => (
           <div
             key={index}
-            className="flex flex-col items-center text-center p-4 border rounded-lg shadow-md w-48"
+            className="flex flex-col items-center text-center p-4 border rounded-lg shadow-md w-64"
           >
             {/* Member Image */}
             <img
               src={member.image}
               alt={member.name}
-              className="w-32 h-32 mb-4 object-cover"
+              className="w-56 h-56 mb-4 object-cover"
             />
             {/* Member Name */}
             <h2 className="text-lg font-bold">{member.name}</h2>

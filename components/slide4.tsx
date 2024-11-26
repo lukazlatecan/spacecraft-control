@@ -16,24 +16,28 @@ const Slide4: React.FC = () => {
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/insurance.png",
+      imageWidth: 400
     },
     {
       text: "Connect with satellite on board companies like SkyLabs or AAC Clyde Space.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/skylabs-aac-clyde.png",
+      imageWidth: 300
     },
     {
       text: "Planning to standardize responses via ESA collaborations.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/esa-bright.png",
+      imageWidth: 350
     },
     {
       text: "Our strategy is adaptable to the growing VLEO market.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/vleo.png",
+      imageWidth: 300
     },
   ];
 

@@ -7,18 +7,21 @@ type TextItem = {
   text: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   image?: string;
+  imageWidth?: number;
   type: "text";
 };
 
 type SlideItem = TextItem;
 
 interface SlideProps {
+  titleImage?: string;
   title: string;
   items: SlideItem[];
   checkIcons?: React.ReactNode;
   callback?: () => void;
 }
 const Slide: React.FC<SlideProps> = ({
+  titleImage,
   title,
   items,
   callback,
@@ -60,15 +63,21 @@ const Slide: React.FC<SlideProps> = ({
       initial={{ y: "40%" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      {/* Slide Title */}
-      <motion.h1
+      <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="text-5xl font-bold"
         initial={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
+        className="flex items-center space-x-4"
       >
-        {title}
-      </motion.h1>
+        {titleImage && (
+          <img
+            src={titleImage}
+            alt={"Inline Image"}
+            className="inline-block w-20 h-20"
+          />
+        )}
+        <h1 className="text-5xl font-bold">{title}</h1>
+      </motion.div>
 
       {/* Slide Content */}
       <div className="relative mt-10 flex w-full max-w-6xl items-center">
@@ -112,9 +121,9 @@ const Slide: React.FC<SlideProps> = ({
                 <Image
                   alt="Relevant image"
                   className="max-w-full max-h-full object-contain rounded-lg"
-                  height={1024}
+                  height={items[currentIndex].imageWidth || 512}
                   src={items[currentIndex].image}
-                  width={1024}
+                  width={items[currentIndex].imageWidth || 512}
                 />
               </motion.div>
             )}

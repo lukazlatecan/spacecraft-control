@@ -28,6 +28,7 @@ const Slide1: React.FC = () => {
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/sat-collision.png",
+      imageWidth: 300
     },
   ];
 
