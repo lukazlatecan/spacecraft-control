@@ -6,26 +6,26 @@ import Slide from "./slide";
 const Slide4: React.FC = () => {
   const items = [
     {
-      text: "Targeting operators seeking efficiency and cost savings.",
+      text: "Focus on commercial satellite operators to reduce costs.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
     {
-      text: "Partnering with insurers to bundle collision prevention and insurance.",
+      text: "Partner with insurers for bundled packages.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/insurance.png",
       imageWidth: 400,
     },
     {
-      text: "Connect with satellite on board companies like SkyLabs or AAC Clyde Space.",
+      text: "Partner with companies like SkyLabs or ACC Clyde Space for communication infrastructure.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/skylabs-aac-clyde.png",
       imageWidth: 300,
     },
     {
-      text: "Planning to standardize responses via ESA collaborations.",
+      text: "Collaborate with ESA to standardize conjunction responses.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/esa-bright.png",
@@ -39,7 +39,7 @@ const Slide4: React.FC = () => {
       imageWidth: 300,
     },
     {
-      text: "Targets the $35B+ satellite market by 2030 with flexible, competitive pricing.",
+      text: "Tap into the $35 billion satellite market with collision avoidance.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/market.png",
