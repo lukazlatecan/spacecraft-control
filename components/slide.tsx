@@ -59,7 +59,7 @@ const Slide: React.FC<SlideProps> = ({
       animate={{
         y: currentIndex < 0 ? "40%" : "0%", // Moves the container vertically
       }}
-      className="relative flex flex-col m-10 items-center w-full h-full p-6"
+      className="relative flex flex-col items-center w-full h-full p-6"
       initial={{ y: "40%" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >

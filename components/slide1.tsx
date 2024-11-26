@@ -6,7 +6,7 @@ import Slide from "./slide";
 const Slide1: React.FC = () => {
   const items = [
     {
-      text: "Orbits see 30+ satellites launched weekly - Kessler syndrome",
+      text: "Orbits see 30+ satellites launched weekly - Kessler syndrome?",
       icon: CheckCircleIcon,
       image: "/images/5.png",
       type: "text" as const,

@@ -6,7 +6,7 @@ import Slide from "./slide";
 const Slide4: React.FC = () => {
   const items = [
     {
-      text: "Targeting commercial operators focused on efficiency and longevity to provide them cost reduction.",
+      text: "Targeting operators seeking efficiency and cost savings.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
@@ -37,6 +37,13 @@ const Slide4: React.FC = () => {
       type: "text" as const,
       image: "/images/vleo.png",
       imageWidth: 300,
+    },
+    {
+      text: "Targets the $35B+ satellite market by 2030 with flexible, competitive pricing.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/market.png",
+      imageWidth: 400,
     },
   ];
 
