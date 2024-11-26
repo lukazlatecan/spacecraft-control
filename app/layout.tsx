@@ -3,6 +3,7 @@ import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
+
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
@@ -38,12 +39,12 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-transparent font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
         )}
       >
         {/* Add the animated particles background */}
         <ParticlesBackground />
-        <BackgroundWithFloatingImages imageUrl="/favicon.png"/>
+        <BackgroundWithFloatingImages imageUrl="/favicon.png" />
 
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">

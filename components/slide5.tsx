@@ -1,4 +1,5 @@
 import React from "react";
+
 import TeamSlide from "./team-slide";
 
 const Slide5: React.FC = () => {
@@ -20,7 +21,7 @@ const Slide5: React.FC = () => {
     },
   ];
 
-  return <TeamSlide title="Meet Our Team" teamMembers={teamMembers} />;
+  return <TeamSlide teamMembers={teamMembers} title="Meet Our Team" />;
 };
 
 export default Slide5;

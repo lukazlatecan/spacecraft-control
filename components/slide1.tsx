@@ -28,17 +28,17 @@ const Slide1: React.FC = () => {
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/sat-collision.png",
-      imageWidth: 300
+      imageWidth: 300,
     },
   ];
 
   return (
     <Slide
-      items={items}
-      title="Problem"
       checkIcons={
         <XCircleIcon className="text-red-500 h-6 w-6 flex-shrink-0 mx-5" />
       }
+      items={items}
+      title="Problem"
     />
   );
 };

@@ -35,7 +35,7 @@ const Home: React.FC = () => {
       setCurrentSlide(index);
       router.push(`/?slide=${encodeURIComponent(slides[index].name)}`);
     },
-    [router, slides]
+    [router, slides],
   );
 
   useEffect(() => {
@@ -57,6 +57,7 @@ const Home: React.FC = () => {
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };

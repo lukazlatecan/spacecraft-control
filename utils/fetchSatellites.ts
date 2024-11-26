@@ -32,7 +32,7 @@ const fetchSatelliteTLEs = async (): Promise<Satellite[]> => {
   // Fetch fresh data
   try {
     const response = await fetch(
-      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle"
+      "https://celestrak.org/NORAD/elements/gp.php?GROUP=active&FORMAT=tle",
     );
 
     if (!response.ok) {
@@ -88,8 +88,10 @@ const calculatePerigeeFromTLE = (tle1: any, tle2: any) => {
 
 const fetchAndFilterSatelliteTLEs = async (): Promise<Satellite[]> => {
   const satellites = await fetchSatelliteTLEs();
+
   return satellites.filter((satellite) => {
     const perigee = calculatePerigeeFromTLE(satellite.tle1, satellite.tle2);
+
     return perigee <= LOW_ORBIT_THRESHOLD;
   });
 };

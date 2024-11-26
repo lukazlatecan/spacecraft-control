@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import styles from '../styles/BackgroundWithFloatingImages.module.css';
+import React, { useEffect, useState } from "react";
+
+import styles from "../styles/BackgroundWithFloatingImages.module.css";
 
 interface FloatingImage {
   id: string;
@@ -17,7 +18,9 @@ interface BackgroundWithFloatingImagesProps {
   imageUrl: string;
 }
 
-const BackgroundWithFloatingImages: React.FC<BackgroundWithFloatingImagesProps> = ({ imageUrl }) => {
+const BackgroundWithFloatingImages: React.FC<
+  BackgroundWithFloatingImagesProps
+> = ({ imageUrl }) => {
   const [images, setImages] = useState<FloatingImage[]>([]);
 
   useEffect(() => {
@@ -31,7 +34,8 @@ const BackgroundWithFloatingImages: React.FC<BackgroundWithFloatingImagesProps> 
         { startX: -20, startY: 120, endX: 120, endY: -20 }, // Bottom-left to top-right
         { startX: 120, startY: 120, endX: -20, endY: -20 }, // Bottom-right to top-left
       ];
-      const selectedCorner = corners[Math.floor(Math.random() * corners.length)];
+      const selectedCorner =
+        corners[Math.floor(Math.random() * corners.length)];
 
       const size = Math.random() * 20 + 30; // Random size between 50px and 100px
       const duration = Math.random() * 5 + 7; // Random duration between 7 and 12 seconds
@@ -50,9 +54,12 @@ const BackgroundWithFloatingImages: React.FC<BackgroundWithFloatingImagesProps> 
       setImages((prev) => [...prev, newImage]);
 
       // Remove image after it completely leaves the screen
-      setTimeout(() => {
-        setImages((prev) => prev.filter((img) => img.id !== id));
-      }, (duration + 2) * 1000); // Duration + buffer for delay
+      setTimeout(
+        () => {
+          setImages((prev) => prev.filter((img) => img.id !== id));
+        },
+        (duration + 2) * 1000,
+      ); // Duration + buffer for delay
     };
 
     const interval = setInterval(spawnImage, 15000); // Spawn every 10 seconds
@@ -65,22 +72,24 @@ const BackgroundWithFloatingImages: React.FC<BackgroundWithFloatingImagesProps> 
       {images.map((image) => (
         <img
           key={image.id}
-          src={imageUrl}
           alt="Floating satellite"
-          style={{
-            top: `${image.startY}%`,
-            left: `${image.startX}%`,
-            width: `${image.size}px`,
-            height: `${image.size}px`,
-            animationDelay: `${image.delay}s`,
-            animationDuration: `${image.duration}s`,
-            animationName: `${styles.moveImage}`,
-            '--startX': `${image.startX}%`,
-            '--startY': `${image.startY}%`,
-            '--endX': `${image.endX}%`,
-            '--endY': `${image.endY}%`,
-          } as React.CSSProperties}
           className={styles.floatingImage}
+          src={imageUrl}
+          style={
+            {
+              top: `${image.startY}%`,
+              left: `${image.startX}%`,
+              width: `${image.size}px`,
+              height: `${image.size}px`,
+              animationDelay: `${image.delay}s`,
+              animationDuration: `${image.duration}s`,
+              animationName: `${styles.moveImage}`,
+              "--startX": `${image.startX}%`,
+              "--startY": `${image.startY}%`,
+              "--endX": `${image.endX}%`,
+              "--endY": `${image.endY}%`,
+            } as React.CSSProperties
+          }
         />
       ))}
     </div>

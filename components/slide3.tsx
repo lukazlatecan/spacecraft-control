@@ -5,8 +5,6 @@ import Slide from "./slide";
 const Slide3: React.FC = () => {
   return (
     <Slide
-      items={[]}
-      title="Live Demo"
       callback={() => {
         // Reroute to live demo
         setTimeout(() => {
@@ -14,9 +12,12 @@ const Slide3: React.FC = () => {
             .split("/")
             .slice(0, -1)
             .join("/");
+
           window.location.href = `${pageUrl}/demo`;
         }, 1200);
       }}
+      items={[]}
+      title="Live Demo"
     />
   );
 };

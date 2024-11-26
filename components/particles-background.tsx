@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import particlesConfig from "@/config/particles-config"; // Import your configuration file
 import { loadSlim } from "@tsparticles/slim";
 import { Container } from "@tsparticles/engine";
 
+import particlesConfig from "@/config/particles-config"; // Import your configuration file
+
 const ParticlesBackground: React.FC = () => {
-    const [init, setInit] = useState(false);
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -16,16 +17,18 @@ const ParticlesBackground: React.FC = () => {
     });
   }, []);
 
-  const particlesLoaded = async (container?: Container | undefined): Promise<void> => {
+  const particlesLoaded = async (
+    container?: Container | undefined,
+  ): Promise<void> => {
     console.log(container);
   };
 
-    if (init) {
+  if (init) {
     return (
       <Particles
         id="tsparticles"
-        particlesLoaded={particlesLoaded}
         options={particlesConfig}
+        particlesLoaded={particlesLoaded}
       />
     );
   }

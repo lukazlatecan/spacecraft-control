@@ -18,7 +18,7 @@ const EncounterGraph: React.FC<EncounterGraphProps> = ({
     const checkDarkMode = () => {
       setIsDarkMode(
         window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches
+          window.matchMedia("(prefers-color-scheme: dark)").matches,
       );
     };
 
@@ -109,10 +109,10 @@ const EncounterGraph: React.FC<EncounterGraphProps> = ({
   return (
     <div>
       <Plot
+        config={{ displayModeBar: false }} // Optional: Disable mode bar
         data={encounterGraphData}
         layout={encounterGraphLayout}
         style={{ width: "100%" }}
-        config={{ displayModeBar: false }} // Optional: Disable mode bar
       />
     </div>
   );

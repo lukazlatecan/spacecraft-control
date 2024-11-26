@@ -56,24 +56,26 @@ const Slide: React.FC<SlideProps> = ({
 
   return (
     <motion.div
-      className="relative flex flex-col m-10 items-center w-full h-full p-6"
       animate={{
         y: currentIndex < 0 ? "40%" : "0%", // Moves the container vertically
       }}
+      className="relative flex flex-col m-10 items-center w-full h-full p-6"
       initial={{ y: "40%" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <motion.div
         animate={{ opacity: 1, y: 0 }}
+        className="flex items-center space-x-4"
         initial={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center space-x-4"
       >
         {titleImage && (
-          <img
-            src={titleImage}
-            alt={"Inline Image"}
+          <Image
+            alt="Inline"
             className="inline-block w-20 h-20"
+            height={56}
+            src={titleImage}
+            width={56}
           />
         )}
         <h1 className="text-5xl font-bold">{title}</h1>
@@ -102,7 +104,7 @@ const Slide: React.FC<SlideProps> = ({
                   {checkIcons}
                   {item.text}
                 </motion.li>
-              )
+              ),
           )}
         </ul>
 
@@ -112,11 +114,11 @@ const Slide: React.FC<SlideProps> = ({
             {currentIndex >= 0 && items[currentIndex]?.image && (
               <motion.div
                 key={items[currentIndex].image}
-                initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0 } }} // Instant exit
-                transition={{ duration: 0.5, ease: "easeIn" }} // Smooth enter
                 className="flex justify-center items-center w-full h-full"
+                exit={{ opacity: 0, transition: { duration: 0 } }} // Instant exit
+                initial={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: "easeIn" }} // Smooth enter
               >
                 <Image
                   alt="Relevant image"

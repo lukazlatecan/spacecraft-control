@@ -10,28 +10,28 @@ const Slide2: React.FC = () => {
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/logo.png",
-      imageWidth: 200
+      imageWidth: 200,
     },
     {
       text: "It monitors trajectories and uses predictive algorithms for proactive prevention.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/trajectory-satellite.png",
-      imageWidth: 400
+      imageWidth: 400,
     },
     {
       text: "Detected risks trigger calculated, simulated, and executed safe maneuvers.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/dodging-debris.png",
-      imageWidth: 400
+      imageWidth: 400,
     },
     {
       text: "Maneuvers optimize fuel, reduce risks, and enhance efficiency.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/reduce-risk.png",
-      imageWidth: 400
+      imageWidth: 400,
     },
   ];
 

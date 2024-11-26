@@ -26,9 +26,9 @@ const TeamSlide: React.FC<TeamSlideProps> = ({ title, teamMembers }) => {
           >
             {/* Member Image */}
             <img
-              src={member.image}
               alt={member.name}
               className="w-56 h-56 mb-4 object-cover"
+              src={member.image}
             />
             {/* Member Name */}
             <h2 className="text-lg font-bold">{member.name}</h2>

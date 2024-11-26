@@ -8,6 +8,7 @@ import {
   ClockIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 
 import {
   Action,
@@ -16,9 +17,7 @@ import {
   Step,
 } from "@/utils/fetchSatellites";
 import ThreeEarth from "@/components/ThreeEarth";
-import dynamic from "next/dynamic";
 import CDMInfoCard from "@/components/CDMInfo";
-import { text } from "stream/consumers";
 
 // Dynamically import the EncounterGraph component with no SSR
 const EncounterGraph = dynamic(() => import("@/components/EncounterGraph"), {
@@ -61,7 +60,7 @@ const DemoPage: React.FC = () => {
       const initialDistance = relativeSpeed * timeBeforeTCA; // Initial distance (in meters)
       // Generate the time range (seconds relative to TCA)
       const generatedTimeRange = Array.from({ length: 300 }, (_, i) =>
-        Math.round(i * (timeBeforeTCA / 150) - timeBeforeTCA)
+        Math.round(i * (timeBeforeTCA / 150) - timeBeforeTCA),
       );
 
       // Calculate the coefficient 'a' for the parabola formula: distance = a * t^2 + tcaDistance
@@ -71,6 +70,7 @@ const DemoPage: React.FC = () => {
       const generatedDistanceValues = generatedTimeRange.map((time) => {
         const baseDistance = a * Math.pow(time, 2) + tcaDistance;
         const variance = Math.random() * 50 - 25; // Variance ±25 meters
+
         return baseDistance + variance;
       });
 
@@ -82,7 +82,7 @@ const DemoPage: React.FC = () => {
   }, [missDistance]);
 
   const currentSatellite = satellites?.find(
-    (sat) => sat.id === selectedSatellite
+    (sat) => sat.id === selectedSatellite,
   );
 
   useEffect(() => {
@@ -90,8 +90,10 @@ const DemoPage: React.FC = () => {
       try {
         const data = await fetchAndFilterSatelliteTLEs();
         const newSatellites = data.slice(0, 200);
+
         setAllSatellites(newSatellites);
         const firstSatellites = newSatellites.slice(0, 2);
+
         firstSatellites.push(newSatellites[2]);
         setSatellites(firstSatellites);
         setSelectedSatellite(firstSatellites[0].id);
@@ -136,8 +138,8 @@ const DemoPage: React.FC = () => {
       prev?.map((sat) =>
         sat.id === selectedSatellite
           ? { ...sat, actions: [...sat.actions, newAction] }
-          : sat
-      )
+          : sat,
+      ),
     );
   };
 
@@ -161,6 +163,7 @@ const DemoPage: React.FC = () => {
       probabilityOfCollision,
       relativeSpeed,
     };
+
     setEncounterDetails(details);
 
     const steps: Step[] = [
@@ -185,6 +188,7 @@ const DemoPage: React.FC = () => {
       const secondaryInterestSatellites = [
         allSatellites[4 + selectedSatelliteIdx * 3]?.name,
       ];
+
       setSatellitesOfSecondaryInterest(secondaryInterestSatellites);
 
       // Situation has worsened
@@ -196,6 +200,7 @@ const DemoPage: React.FC = () => {
         probabilityOfCollision: 1.0e-5,
         relativeSpeed: 7.8,
       };
+
       setEncounterDetails(details);
 
       const steps: Step[] = [
@@ -206,6 +211,7 @@ const DemoPage: React.FC = () => {
           status: "pending",
         },
       ];
+
       setBiddingInProgress(true);
       addAction(`CDM Alert - Bidding initiated`, steps);
     } else if (encounterStage === "worsening") {
@@ -221,7 +227,7 @@ const DemoPage: React.FC = () => {
 
       addAction(
         `Action ${currentSatellite?.actions.length + 1}: Bidding Action`,
-        steps
+        steps,
       );
 
       // setBiddingInProgress(true);
@@ -356,11 +362,11 @@ const DemoPage: React.FC = () => {
         {/* Info Card for CDM Warning */}
         {encounterDetails ? (
           <CDMInfoCard
-            encounterStage={encounterStage}
-            encounterDetails={encounterDetails}
             currentSatelliteName={currentSatellite?.name}
-            satellitesOfSecondaryInterest={satellitesOfSecondaryInterest}
+            encounterDetails={encounterDetails}
+            encounterStage={encounterStage}
             missDistance={missDistance}
+            satellitesOfSecondaryInterest={satellitesOfSecondaryInterest}
           />
         ) : (
           <p className="text-gray-500">No active alerts.</p>
@@ -381,13 +387,13 @@ const DemoPage: React.FC = () => {
               Bid from operators of ${satellitesOfSecondaryInterest[0]}:
               <b>{highestBid} € </b>
             </p>
-            <label htmlFor="userBid" className="block mt-2">
+            <label className="block mt-2" htmlFor="userBid">
               Enter your bid:
             </label>
             <input
-              type="number"
-              id="userBid"
               className="border rounded px-2 py-1 mt-1 w-full"
+              id="userBid"
+              type="number"
               value={userBid !== null ? userBid : ""}
               onChange={(e) => setUserBid(parseFloat(e.target.value))}
             />
@@ -419,8 +425,8 @@ const DemoPage: React.FC = () => {
 
               {/* Use the EncounterGraph component */}
               <EncounterGraph
-                timeRange={timeRange}
                 distanceValues={distanceValues}
+                timeRange={timeRange}
               />
             </div>
           </section>

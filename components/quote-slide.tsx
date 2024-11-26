@@ -82,18 +82,18 @@ const QuoteSlide: React.FC<QuoteSlideProps> = ({
       <div className="mt-20 h-12 flex items-center justify-center">
         {startSloganAnimation && (
           <motion.h1
-            className="text-blue-500 font-bold text-3xl text-center"
-            style={{ display: "inline-block" }}
-            initial="hidden"
             animate="visible"
+            className="text-blue-500 font-bold text-3xl text-center"
+            initial="hidden"
+            style={{ display: "inline-block" }}
           >
             {slogan.split("").map((letter, index) => (
               <motion.span
                 key={index}
-                variants={sloganVariants}
-                initial="hidden"
                 animate="visible"
                 custom={index}
+                initial="hidden"
+                variants={sloganVariants}
               >
                 {letter === " " ? "\u00A0" : letter}
               </motion.span>
@@ -106,16 +106,16 @@ const QuoteSlide: React.FC<QuoteSlideProps> = ({
       <div className="mt-5 h-16 flex items-center justify-center">
         {startLogoAnimation && (
           <motion.div
+            animate="visible"
             className="flex items-center space-x-4"
             initial="hidden"
-            animate="visible"
             variants={logoVariants}
           >
             {image && (
               <img
-                src={image}
                 alt="Inline Logo"
                 className="inline-block h-10"
+                src={image}
               />
             )}
             <h1 className="text-xl font-bold">{companyNameText}</h1>

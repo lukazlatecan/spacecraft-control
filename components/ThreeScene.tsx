@@ -6,7 +6,7 @@ interface ThreeSceneProps {
   onSceneReady: (
     scene: THREE.Scene,
     camera: THREE.PerspectiveCamera,
-    renderer: THREE.WebGLRenderer
+    renderer: THREE.WebGLRenderer,
   ) => void;
 }
 
@@ -22,13 +22,13 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ onSceneReady }) => {
       75,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
       0.1,
-      1000
+      1000,
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true });
 
     renderer.setSize(
       containerRef.current.clientWidth,
-      containerRef.current.clientHeight
+      containerRef.current.clientHeight,
     );
     containerRef.current.appendChild(renderer.domElement);
 
