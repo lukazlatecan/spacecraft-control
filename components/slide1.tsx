@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 import Slide from "./slide";
 
@@ -30,7 +30,15 @@ const Slide1: React.FC = () => {
     },
   ];
 
-  return <Slide items={items} title="Problem" />;
+  return (
+    <Slide
+      items={items}
+      title="Problem"
+      checkIcons={
+        <XCircleIcon className="text-red-500 h-6 w-6 flex-shrink-0 mx-5" />
+      }
+    />
+  );
 };
 
 export default Slide1;

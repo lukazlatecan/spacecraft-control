@@ -16,7 +16,7 @@ const Slide4: React.FC = () => {
       type: "text" as const,
     },
     {
-      text: "Connect with satellite on board companies like SkyLabs.",
+      text: "Connect with satellite on board companies like SkyLabs or AAC Clyde Space.",
       icon: CheckCircleIcon,
       type: "text" as const,
     },
