@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import CheckCircleIcon from "@heroicons/react/24/solid/CheckCircleIcon";
+import StarIcon from "@heroicons/react/24/solid/StarIcon";
 
 type TextItem = {
   text: string;
@@ -26,7 +26,7 @@ const Slide: React.FC<SlideProps> = ({
   items,
   callback,
   checkIcons = (
-    <CheckCircleIcon className="text-blue-500 h-6 w-6 flex-shrink-0 mx-5" />
+    <StarIcon className="text-blue-500 h-6 w-6 flex-shrink-0 mx-5" />
   ),
 }) => {
   const [currentIndex, setCurrentIndex] = useState(-1); // Start with -1 to show only the title
