@@ -32,18 +32,18 @@ const Slide4: React.FC = () => {
       imageWidth: 350,
     },
     {
-      text: "Our strategy is adaptable to the growing VLEO market.",
-      icon: CheckCircleIcon,
-      type: "text" as const,
-      image: "/images/vleo.png",
-      imageWidth: 300,
-    },
-    {
       text: "Tap into the $35 billion satellite market with collision avoidance.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/market.png",
       imageWidth: 400,
+    },
+    {
+      text: "Our strategy is adaptable to the growing VLEO market.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/vleo.png",
+      imageWidth: 300,
     },
   ];
 
