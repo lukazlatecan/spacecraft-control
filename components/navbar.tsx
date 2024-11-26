@@ -24,7 +24,7 @@ import { usePathname } from "next/navigation";
 export const Navbar = () => {
   const pathname = usePathname(); // Get the current pathname reactively
   const isDemoInPath = pathname.includes("demo"); // Check if "demo" is in the path
-
+  return <></>;
   if (!isDemoInPath) {
     return <></>; // Render nothing if not on a "demo" route
   }

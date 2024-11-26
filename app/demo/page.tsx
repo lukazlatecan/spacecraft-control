@@ -110,6 +110,9 @@ const DemoPage: React.FC = () => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "1") handleCDMWarning();
       if (event.key === "2") handleAction2();
+      if (event.key === "0") {
+        window.location.href = "/?slide=GTM%20strategy";
+      }
     };
 
     window.addEventListener("keydown", handleKeyPress);
@@ -368,7 +371,7 @@ const DemoPage: React.FC = () => {
           <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative shadow">
             <div className="flex items-center gap-2 mb-4">
               <InformationCircleIcon className="h-6 w-6 text-yellow-500" />
-              <span className="font-bold text-lg">Bidding Process</span>
+              <span className="font-bold text-2xl">Bidding Process</span>
             </div>
             <p className="mb-3">
               A bidding process is in progress for{" "}

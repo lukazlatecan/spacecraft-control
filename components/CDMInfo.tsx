@@ -52,37 +52,37 @@ const CDMInfoCard: React.FC<CDMInfoCardProps> = ({
   return (
     <div className={className}>
       <div className="flex items-center gap-2 mb-4">
-        <InformationCircleIcon className={`h-6 w-6 ${classes.icon}`} />
-        <span className="font-bold text-lg">
+        <InformationCircleIcon className={`h-8 w-8 ${classes.icon}`} />
+        <span className="font-bold text-2xl">
           {encounterStage === "worsening"
-            ? "Collision Risk Increased"
+            ? "Collision Risk"
             : encounterStage === "resolved"
               ? "Situation Resolved"
-              : "Potential Collision Avoided"}
+              : "Collision Avoided"}
         </span>
       </div>
       {encounterStage === "resolved" ? (
-        <p>The situation has been resolved. No further action is required.</p>
+        <p className="text-lg">
+          The situation has been resolved. No further action is required.
+        </p>
       ) : (
         <>
-          <p className="mb-3">
-            A potential collision has been detected between{" "}
+          <p className="mb-1 text-lg">
+            Potential collision between{" "}
             <span className="font-bold">{currentSatelliteName}</span> and{" "}
             <span className="font-bold">
               {satellitesOfSecondaryInterest[0]}
             </span>
-            .
+            {encounterStage === "initial" ? " has been avoided." : "."}
           </p>
           {encounterStage !== "initial" && (
-            <ul className="list-disc list-inside pl-4 space-y-1">
+            <ul className="list-disc list-inside pl-4 space-y-1 text-sm">
               <li>
-                <span className="font-semibold">
-                  Time of Closest Approach (TCA):
-                </span>{" "}
+                <span className="font-semibold">TCA:</span>{" "}
                 {encounterDetails.TCA}
               </li>
               <li>
-                <span className="font-semibold">Probability of Collision:</span>{" "}
+                <span className="font-semibold">Collision Probability:</span>{" "}
                 {encounterDetails.probabilityOfCollision}
               </li>
               <li>
@@ -90,18 +90,17 @@ const CDMInfoCard: React.FC<CDMInfoCardProps> = ({
                 {encounterDetails.relativeSpeed} m/s
               </li>
               <li>
-                <span className="font-semibold">Predicted Miss Distance:</span>{" "}
+                <span className="font-semibold">Miss Distance:</span>{" "}
                 {missDistance} meters
               </li>
             </ul>
           )}
           {encounterStage === "initial" && (
             <>
-              <p className="mb-3">
-                An automatic orbit adjustment has been performed to avoid a
-                potential collision with an unmovable object.
+              <p className="mb-3 text-sm">
+                Automatic orbit adjustment performed to avoid collision.
               </p>
-              <ul className="list-disc list-inside pl-4 space-y-1">
+              <ul className="list-disc list-inside pl-4 space-y-1 text-xs">
                 <li>
                   <span className="font-semibold">Object Type:</span> Space
                   Debris
@@ -119,26 +118,21 @@ const CDMInfoCard: React.FC<CDMInfoCardProps> = ({
                   1801 km
                 </li>
               </ul>
-              <p className="mt-3">
-                <span className="font-semibold">
-                  No further action is required at this time.
-                </span>
+              <p className="mt-3 text-sm font-semibold">
+                No further action is required at this time.
               </p>
             </>
           )}
 
           {encounterStage === "worsening" && (
-            <p className="mt-3">
-              <span className="font-semibold">
-                Immediate action is required to mitigate the increased collision
-                risk.
-              </span>
+            <p className="mt-3 text-lg font-semibold">
+              Immediate action is required to mitigate the increased collision
+              risk.
             </p>
           )}
           {encounterStage === "initial" && (
-            <p className="mt-3">
-              Current trajectory shows no immediate threat, but it is
-              recommended to monitor closely.{" "}
+            <p className="mt-3 text-sm">
+              Current trajectory shows no immediate threat.{" "}
               <span className="font-semibold">No action</span> is required at
               this time.
             </p>

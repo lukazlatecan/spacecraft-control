@@ -27,6 +27,7 @@ const Slide1: React.FC = () => {
       text: "Collisions add debris, worsening orbit management challenges.",
       icon: CheckCircleIcon,
       type: "text" as const,
+      image: "/images/sat-collision.png",
     },
   ];
 
