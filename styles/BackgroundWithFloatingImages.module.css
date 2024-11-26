@@ -1,0 +1,29 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent; /* Replace with your desired background */
+  overflow: hidden;
+  z-index: -1; /* Keep it in the background */
+}
+
+.floatingImage {
+  position: absolute;
+  opacity: 0.3; /* Low opacity */
+  animation-timing-function: linear; /* Smooth, consistent movement */
+  animation-fill-mode: forwards; /* Retain end position */
+  animation: moveImage 10s linear infinite; /* Movement animation */
+}
+
+@keyframes moveImage {
+  from {
+    top: var(--startY);
+    left: var(--startX);
+  }
+  to {
+    top: var(--endY);
+    left: var(--endX);
+  }
+}
