@@ -12,7 +12,7 @@ const Slide5: React.FC = () => {
     {
       image: "/images/luka.png",
       name: "Luka Zlatečan",
-      position: "CTO@IndigoLabs",
+      position: "CEO&CTO@SpaceGuardian",
     },
     {
       image: "/images/janez.png",

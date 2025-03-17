@@ -11,6 +11,7 @@ import Slide3 from "@/components/slide3";
 import Slide4 from "@/components/slide4";
 import Slide5 from "@/components/slide5";
 import Slide6 from "@/components/slide6";
+import Slide7 from "@/components/slide7";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -24,7 +25,8 @@ const Home: React.FC = () => {
     { component: <Slide3 key="3" />, name: "Live Demo" },
     { component: <Slide4 key="4" />, name: "GTM strategy" },
     { component: <Slide5 key="5" />, name: "Team" },
-    { component: <Slide6 key="6" />, name: "Q&A" },
+    { component: <Slide6 key="6" />, name: "Awards" },
+    { component: <Slide7 key="7" />, name: "Q&A" },
   ];
 
   const getSlideIndexByName = (name: string) =>
@@ -80,7 +82,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <section className="flex flex-col w-full h-[80vh]">
+    <section className="flex flex-col w-full h-[90vh]">
       {/* Slide Container */}
       <div className="flex-grow w-full relative overflow-hidden">
         <AnimatePresence mode="wait">

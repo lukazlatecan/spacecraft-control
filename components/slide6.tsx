@@ -1,18 +1,41 @@
 import React from "react";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
-import QuoteSlide from "./quote-slide";
+import Slide from "./slide";
 
 const Slide6: React.FC = () => {
-  return (
-    <QuoteSlide
-      companyNameText="SpaceGuardian"
-      image="/favicon.png"
-      quote="If we had asked satellite operators what they wanted, they would have said: Satellites with more fuel and less congestion in orbit."
-      quoteAuthor="Henry Ford"
-      slogan="Guiding satellites towards autonomous tomorrow."
-      title="Q&A"
-    />
-  );
+  const items = [
+    {
+      text: "We won first prize at the Cassini Hackathon 2024.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/cassini.png",
+      imageWidth: 400,
+    },
+    {
+      text: "We earned third place at the We Make Future event in Bologna.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/wmf.png",
+      imageWidth: 400,
+    },
+    {
+      text: "Multiple hackathon wins back our technical skills.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/dragonhack.png",
+      imageWidth: 300,
+    },
+    {
+      text: "These awards confirm our solution’s innovation.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/innovation.png",
+      imageWidth: 350,
+    }
+  ];
+
+  return <Slide items={items} title="Awards & Recognitions" />;
 };
 
 export default Slide6;

@@ -6,28 +6,35 @@ import Slide from "./slide";
 const Slide1: React.FC = () => {
   const items = [
     {
-      text: "Orbits see 30+ satellites launched weekly - Kessler syndrome?",
+      text: "Low Earth orbit is growing busy with 30+ satellites launching weekly.",
       icon: CheckCircleIcon,
       image: "/images/5.png",
       type: "text" as const,
       imageWidth: 350,
     },
     {
-      text: "Tools like LeafSpace track collisions but rely on outdated responses.",
+      text: "Tools like LeafSpace and LeoSafe only monitor collisions.",
       image: "/images/4.png",
       icon: CheckCircleIcon,
       type: "text" as const,
       imageWidth: 350,
     },
     {
-      text: "Slow, error-prone methods waste fuel and shorten satellite lifespans.",
+      text: "Manual maneuvers are slow, error-prone, and waste fuel.",
       image: "/images/3.png",
       icon: CheckCircleIcon,
       type: "text" as const,
       imageWidth: 350,
     },
     {
-      text: "Collisions add debris, worsening orbit management challenges.",
+      text: "There are 39,340 tracked objects and 650+ fragmentation events.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/sat-collision.png",
+      imageWidth: 300,
+    },
+    {
+      text: "Automated space traffic management is urgently needed.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/sat-collision.png",

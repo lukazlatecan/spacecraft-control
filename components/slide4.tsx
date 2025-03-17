@@ -6,12 +6,14 @@ import Slide from "./slide";
 const Slide4: React.FC = () => {
   const items = [
     {
-      text: "Focus on commercial satellite operators to reduce costs.",
+      text: "The LEO market was USD 12.4B in 2024 and will hit USD 27.8B by 2030. Our focus is on operators with 5–50 satellites.",
       icon: CheckCircleIcon,
       type: "text" as const,
+      image: "/images/money.png",
+      imageWidth: 200,
     },
     {
-      text: "Partner with insurers for bundled packages.",
+      text: "Partner with insurance companies to bundle collision prevention",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/insurance.png",
@@ -32,19 +34,12 @@ const Slide4: React.FC = () => {
       imageWidth: 350,
     },
     {
-      text: "Tap into the $35 billion satellite market with collision avoidance.",
+      text: "A scalable subscription model starts at EUR 20K–30K yearly.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/market.png",
       imageWidth: 400,
-    },
-    {
-      text: "Our strategy is adaptable to the growing VLEO market.",
-      icon: CheckCircleIcon,
-      type: "text" as const,
-      image: "/images/vleo.png",
-      imageWidth: 300,
-    },
+    }
   ];
 
   return <Slide items={items} title="GTM strategy" />;
