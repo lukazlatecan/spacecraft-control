@@ -32,14 +32,7 @@ const Slide2: React.FC = () => {
       type: "text" as const,
       image: "/images/risk.png",
       imageWidth: 400,
-    },
-    {
-      text: "Our solution can cut collision risks by 30%.",
-      icon: CheckCircleIcon,
-      type: "text" as const,
-      image: "/images/risk.png",
-      imageWidth: 400,
-    },
+    }
   ];
 
   return <Slide items={items} title="Solution" />;
