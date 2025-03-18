@@ -34,10 +34,17 @@ const Slide1: React.FC = () => {
       imageWidth: 300,
     },
     {
-      text: "Automated space traffic management is urgently needed.",
+      text: "The 2009 collision between the Iridium 33 and Cosmos 2251 satellites.",
       icon: CheckCircleIcon,
       type: "text" as const,
       image: "/images/sat-collision.png",
+      imageWidth: 300,
+    },
+    {
+      text: "SpaceX Starlink satellites performed 50,000 collision-avoidance maneuvers in the past six months alone.",
+      icon: CheckCircleIcon,
+      type: "text" as const,
+      image: "/images/spacex.png",
       imageWidth: 300,
     },
   ];

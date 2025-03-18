@@ -82,7 +82,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <section className="flex flex-col w-full h-[90vh]">
+    <section className="flex flex-col w-full h-[85vh]">
       {/* Slide Container */}
       <div className="flex-grow w-full relative overflow-hidden">
         <AnimatePresence mode="wait">
